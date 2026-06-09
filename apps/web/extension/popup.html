@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CareerKaki</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h3>CareerKaki</h3>
+
+      <textarea id="input" placeholder="Paste selected text or a resume snippet"></textarea>
+
+      <div class="controls">
+        <button id="start">Start Workflow</button>
+        <button id="copyId" disabled>Copy id</button>
+        <button id="approve" disabled>Approve</button>
+      </div>
+
+      <div id="status" class="status">
+        <em>No workflow started</em>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

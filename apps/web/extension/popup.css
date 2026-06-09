@@ -1,0 +1,8 @@
+body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial;color:#0f172a;margin:0;padding:12px;background:#fff;width:360px}
+.container h3{margin:0 0 8px 0}
+textarea#input{width:100%;min-height:80px;padding:8px;border:1px solid #e2e8f0;border-radius:6px}
+.controls{display:flex;gap:8px;margin-top:8px}
+.controls button{flex:1;padding:8px;border-radius:6px;border:0;background:#0ea5e9;color:white}
+.status{margin-top:12px;padding:8px;border-radius:6px;background:#f8fafc;border:1px solid #e6eef6;max-height:240px;overflow:auto}
+.task{padding:6px;border-bottom:1px solid #e6eef6}
+.task:last-child{border-bottom:0}
