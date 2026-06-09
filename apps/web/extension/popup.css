@@ -1,8 +1,22 @@
-body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial;color:#0f172a;margin:0;padding:12px;background:#fff;width:360px}
-.container h3{margin:0 0 8px 0}
-textarea#input{width:100%;min-height:80px;padding:8px;border:1px solid #e2e8f0;border-radius:6px}
+body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial;color:#0f172a;margin:0;padding:12px;background:#fff;width:380px}
+.container h3{margin:0 0 8px 0;font-size:18px}
+.container h4{margin:8px 0;font-size:14px;color:#475569}
+textarea#input{width:100%;min-height:60px;padding:8px;border:1px solid #e2e8f0;border-radius:6px;font-family:inherit}
 .controls{display:flex;gap:8px;margin-top:8px}
-.controls button{flex:1;padding:8px;border-radius:6px;border:0;background:#0ea5e9;color:white}
-.status{margin-top:12px;padding:8px;border-radius:6px;background:#f8fafc;border:1px solid #e6eef6;max-height:240px;overflow:auto}
-.task{padding:6px;border-bottom:1px solid #e6eef6}
-.task:last-child{border-bottom:0}
+.controls button{padding:8px;border-radius:6px;border:0;background:#0ea5e9;color:white;cursor:pointer;font-size:13px}
+.controls button:disabled{background:#cbd5e1;cursor:not-allowed}
+.timeline{display:flex;flex-direction:column;gap:12px}
+.timeline-item{display:flex;align-items:flex-start;gap:8px;padding:8px;border-radius:6px;background:#f8fafc;border-left:3px solid #cbd5e1}
+.timeline-item.running{border-left-color:#0ea5e9;background:#eff6ff}
+.timeline-item.done{border-left-color:#10b981;background:#f0fdf4}
+.timeline-item.error{border-left-color:#ef4444;background:#fef2f2}
+.timeline-icon{font-size:18px;min-width:24px;text-align:center}
+.timeline-content{flex:1}
+.timeline-title{font-weight:600;font-size:13px;margin:0}
+.timeline-desc{font-size:12px;color:#64748b;margin:2px 0}
+.timeline-status{font-size:11px;color:#94a3b8;margin:2px 0}
+.spinner{display:inline-block;width:12px;height:12px;border:2px solid #0ea5e9;border-top-color:transparent;border-radius:50%;animation:spin 0.6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#resultDetails{font-size:12px;max-height:200px;overflow-y:auto}
+.result-item{padding:8px;background:#f8fafc;border-radius:4px;margin-bottom:6px;border-left:2px solid #0ea5e9}
+.result-title{font-weight:600;color:#0f172a}

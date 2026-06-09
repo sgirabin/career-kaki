@@ -8,18 +8,24 @@
   </head>
   <body>
     <div class="container">
-      <h3>CareerKaki</h3>
+      <h3>🎯 CareerKaki</h3>
 
-      <textarea id="input" placeholder="Paste selected text or a resume snippet"></textarea>
-
-      <div class="controls">
-        <button id="start">Start Workflow</button>
-        <button id="copyId" disabled>Copy id</button>
-        <button id="approve" disabled>Approve</button>
+      <div id="inputSection" style="margin-bottom: 16px">
+        <textarea id="input" placeholder="Job description will be auto-detected from this page..."></textarea>
+        <div class="controls" style="margin-top: 8px">
+          <button id="start" style="flex: 1">Start Workflow</button>
+          <button id="copyId" disabled style="flex: 0.5">Copy ID</button>
+          <button id="approve" disabled style="flex: 0.5">Approve</button>
+        </div>
       </div>
 
-      <div id="status" class="status">
-        <em>No workflow started</em>
+      <div id="progressSection" style="display: none; margin-top: 16px">
+        <div id="progressTimeline" class="timeline"></div>
+      </div>
+
+      <div id="resultsSection" style="display: none; margin-top: 16px">
+        <h4>Results</h4>
+        <div id="resultDetails"></div>
       </div>
     </div>
 
