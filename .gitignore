@@ -1,0 +1,10 @@
+#confidential file
+.env
+
+#os file
+.DS_Store
+
+#ai files
+ARCHITECTURE.md
+CONTEXT_MEMORY.md
+SESSION_LOGS.md
