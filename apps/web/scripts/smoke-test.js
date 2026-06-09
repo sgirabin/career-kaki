@@ -1,6 +1,6 @@
 (async function(){
   const port = process.env.PORT || 3001;
-  const url = `http://localhost:${port}/api/hello`;
+  const url = `http://localhost:${port}/api/worker`;
   console.log('Testing', url);
   try {
     const res = await fetch(url, { method: 'GET' });
