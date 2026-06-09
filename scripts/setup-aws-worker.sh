@@ -63,7 +63,7 @@ fi
 
 # Create HTTP API
 API_ID=$(aws apigatewayv2 get-apis --query "Items[?Name=='$API_NAME'].ApiId | [0]" --output text 2>/dev/null || echo "none")
-if [ "$API_ID" = "none" ] || [ -z "$API_ID" ]; then
+if [ "$API_ID" = "None" ] || [ "$API_ID" = "none" ] || [ -z "$API_ID" ]; then
   echo "Creating HTTP API $API_NAME"
   API_ID=$(aws apigatewayv2 create-api --name "$API_NAME" --protocol-type HTTP --region "$REGION" --query 'ApiId' --output text)
 else
@@ -72,7 +72,7 @@ fi
 
 # Create integration
 INTEGRATION_ID=$(aws apigatewayv2 get-integrations --api-id "$API_ID" --query "Items[?IntegrationType=='AWS_PROXY' && contains(IntegrationUri, '$FUNCTION_NAME')].IntegrationId | [0]" --output text 2>/dev/null || echo "none")
-if [ "$INTEGRATION_ID" = "none" ] || [ -z "$INTEGRATION_ID" ]; then
+if [ "$INTEGRATION_ID" = "None" ] || [ "$INTEGRATION_ID" = "none" ] || [ -z "$INTEGRATION_ID" ]; then
   echo "Creating integration for Lambda -> API"
   LAMBDA_ARN=$(aws lambda get-function --function-name "$FUNCTION_NAME" --region "$REGION" --query 'Configuration.FunctionArn' --output text)
   # IntegrationUri must be of format arn:aws:apigateway:{region}:lambda:path/2015-03-31/functions/{lambdaArn}/invocations
@@ -84,7 +84,7 @@ fi
 
 # Create route
 ROUTE_ID=$(aws apigatewayv2 get-routes --api-id "$API_ID" --query "Items[?RouteKey=='GET /'].RouteId | [0]" --output text 2>/dev/null || echo "none")
-if [ "$ROUTE_ID" = "none" ] || [ -z "$ROUTE_ID" ]; then
+if [ "$ROUTE_ID" = "None" ] || [ "$ROUTE_ID" = "none" ] || [ -z "$ROUTE_ID" ]; then
   echo "Creating route GET /"
   ROUTE_ID=$(aws apigatewayv2 create-route --api-id "$API_ID" --route-key 'GET /' --target "integrations/$INTEGRATION_ID" --region "$REGION" --query 'RouteId' --output text)
 else
