@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import { callLLM } from './llm-provider';
 
 type TaskStatus = 'pending' | 'running' | 'done' | 'error';
 
@@ -17,7 +18,13 @@ export type Workflow = {
   approved?: boolean;
 };
 
-const store = new Map<string, Workflow>();
+// Use globalThis to persist store across Next.js hot reloads in dev
+const getStore = () => {
+  if (!(global as any).__workflowStore) {
+    (global as any).__workflowStore = new Map<string, Workflow>();
+  }
+  return (global as any).__workflowStore as Map<string, Workflow>;
+};
 
 export function createWorkflow(input: string) {
   const id = randomUUID();
@@ -27,13 +34,13 @@ export function createWorkflow(input: string) {
     { agent: 'social-composer', status: 'pending' },
   ];
   const wf: Workflow = { id, input, status: 'running', tasks, createdAt: new Date().toISOString() };
-  store.set(id, wf);
+  getStore().set(id, wf);
   runAgents(wf).catch(() => {});
   return wf;
 }
 
 export function getWorkflow(id: string) {
-  return store.get(id) ?? null;
+  return getStore().get(id) ?? null;
 }
 
 async function runAgents(wf: Workflow) {
@@ -43,18 +50,7 @@ async function runAgents(wf: Workflow) {
     const task = wf.tasks[i];
     task.status = 'running';
     try {
-      let result: any = { message: 'no-worker' };
-      if (workerUrl) {
-        try {
-          const res = await fetch(workerUrl, { method: 'GET' });
-          const body = await res.json().catch(() => ({ message: 'invalid-json' }));
-          result = { fromWorker: body };
-        } catch (err) {
-          result = { error: String(err) };
-        }
-      } else {
-        result = { message: 'worker not configured' };
-      }
+      const result = await callLLM(wf.input);
 
       // Minimal agent-specific shaping
       if (task.agent === 'resume-writer') {
@@ -73,14 +69,14 @@ async function runAgents(wf: Workflow) {
     }
   }
   wf.status = 'complete';
-  store.set(wf.id, wf);
+  getStore().set(wf.id, wf);
 }
 
 export function approveWorkflow(id: string) {
-  const wf = store.get(id);
+  const wf = getStore().get(id);
   if (!wf) return null;
   wf.approved = true;
   wf.status = 'approved';
-  store.set(id, wf);
+  getStore().set(id, wf);
   return wf;
 }
