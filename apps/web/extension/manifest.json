@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Start CareerKaki workflows from selected text.",
   "permissions": ["contextMenus", "activeTab", "scripting", "clipboardWrite"],
-  "host_permissions": ["http://localhost:3000/*", "http://localhost:3001/*"],
+  "host_permissions": ["http://localhost/*", "https://localhost/*"],
   "background": {
     "service_worker": "background.js"
   },
