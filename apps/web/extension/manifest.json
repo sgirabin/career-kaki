@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "CareerKaki Demo Extension",
+  "version": "0.1.0",
+  "description": "Start CareerKaki workflows from selected text.",
+  "permissions": ["contextMenus", "activeTab", "scripting", "clipboardWrite"],
+  "host_permissions": ["http://localhost:3001/*", "http://localhost:3002/*"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
