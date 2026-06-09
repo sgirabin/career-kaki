@@ -10,7 +10,9 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === 'career-kaki-start') {
     const selection = info.selectionText || '';
     try {
-      const res = await fetch('http://localhost:3000/api/workflows/start', {
+      // determine active tab origin so extension works with any local port
+      const origin = (tab && tab.url) ? new URL(tab.url).origin : 'http://localhost:3000';
+      const res = await fetch(origin + '/api/workflows/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ input: selection })
@@ -21,8 +23,8 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       if (data.id) {
         await navigator.clipboard.writeText(data.id).catch(() => {});
       }
-      // Optionally open the local demo page
-        chrome.tabs.create({ url: 'http://localhost:3000' });
+      // Optionally open the local demo page (open the origin)
+      chrome.tabs.create({ url: origin });
     } catch (err) {
       console.error('Extension start error', err);
     }

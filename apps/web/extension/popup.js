@@ -1,4 +1,4 @@
-const START_URL = 'http://localhost:3000/api/workflows/start';
+let START_URL = 'http://localhost:3000/api/workflows/start';
 
 const $input = document.getElementById('input');
 const $start = document.getElementById('start');
@@ -13,6 +13,10 @@ async function startWorkflow() {
   setStatus('starting...');
   $start.disabled = true;
   try {
+    // determine active tab origin to support different dev ports
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    const origin = (tabs && tabs[0] && tabs[0].url) ? new URL(tabs[0].url).origin : 'http://localhost:3000';
+    START_URL = origin + '/api/workflows/start';
     const res = await fetch(START_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ input: $input.value || '' }) });
     const j = await res.json();
     if (!res.ok) throw new Error(JSON.stringify(j));
@@ -31,7 +35,9 @@ async function pollWorkflow(id) {
   if (pollHandle) clearInterval(pollHandle);
   pollHandle = setInterval(async () => {
     try {
-      const r = await fetch(`http://localhost:3000/api/workflows/${id}`);
+      const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+      const origin = (tabs && tabs[0] && tabs[0].url) ? new URL(tabs[0].url).origin : 'http://localhost:3000';
+      const r = await fetch(`${origin}/api/workflows/${id}`);
       const j = await r.json();
       renderWorkflow(j);
       if (j.status === 'complete' || j.status === 'approved') {
@@ -48,7 +54,9 @@ async function approveWorkflow() {
   if (!currentId) return;
   setStatus('approving...');
   try {
-    const r = await fetch(`http://localhost:3000/api/workflows/${currentId}/approve`, { method: 'POST' });
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    const origin = (tabs && tabs[0] && tabs[0].url) ? new URL(tabs[0].url).origin : 'http://localhost:3000';
+    const r = await fetch(`${origin}/api/workflows/${currentId}/approve`, { method: 'POST' });
     const j = await r.json();
     renderWorkflow(j);
   } catch (err) {
